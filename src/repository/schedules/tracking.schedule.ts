@@ -12,7 +12,7 @@ export class TrackingSchedule {
     private readonly repoTimeService: RepoTimeService,
   ) {}
 
-  @Cron(CronExpression.EVERY_MINUTE)
+  @Cron(CronExpression.EVERY_DAY_AT_4AM)
   async handle(): Promise<void> {
     if (process.env.WAKA_CRON_ENABLED != '1') {
       return;

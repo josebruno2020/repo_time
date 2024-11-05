@@ -25,7 +25,7 @@ import { ScheduleModule } from '@nestjs/schedule';
         schema: configService.get('DB_SCHEMA'),
         autoLoadEntities: true,
         logging: configService.get('APP_ENV') === 'local',
-        synchronize: true,
+        synchronize: false,
       }),
     }),
     ScheduleModule.forRoot(),
