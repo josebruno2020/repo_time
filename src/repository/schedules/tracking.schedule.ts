@@ -14,6 +14,9 @@ export class TrackingSchedule {
 
   @Cron(CronExpression.EVERY_MINUTE)
   async handle(): Promise<void> {
+    if (process.env.WAKA_CRON_ENABLED != '1') {
+      return;
+    }
     console.log(`==== [TRACKING_SCHEDULE] ====`);
     console.log(new Date().toString());
     const repos = await this.repositoryService.findAllInProjectTracking();
@@ -32,7 +35,7 @@ export class TrackingSchedule {
     } of repositories) {
       try {
         await this.repoTimeService.create({
-          date: new Date(date),
+          date,
           hours,
           repositoryName: name,
           minutes,

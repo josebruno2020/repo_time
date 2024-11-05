@@ -13,6 +13,13 @@ export class RepoTimeService implements IBaseService<RepoTime, RepoTimeDto> {
     private readonly repositoryService: RepositoryService,
   ) {}
 
+  findByRepository(repositoryId: string): Promise<RepoTime[]> {
+    return this.repoTimRepository.find({
+      where: { repository: { id: repositoryId } },
+      order: { createdAt: 'desc' },
+    });
+  }
+
   findById(id: string): Promise<RepoTime> {
     return this.repoTimRepository.findOne({ where: { id } });
   }
@@ -26,7 +33,7 @@ export class RepoTimeService implements IBaseService<RepoTime, RepoTimeDto> {
   }
 
   findByDateAndRepo(
-    date: Date,
+    date: string | Date,
     repositoryId: string,
   ): Promise<RepoTime | null> {
     return this.repoTimRepository.findOne({

@@ -7,6 +7,7 @@ import { RepoTime } from './repo-time.entity';
 import { TrackingSchedule } from './schedules/tracking.schedule';
 import { WakaTimeService } from './services/wakatime.service';
 import { RepoTimeService } from './services/repo-time.service';
+import { RepoTimeController } from './controllers/repo-time.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([RepositoryEntity, RepoTime])],
@@ -16,7 +17,7 @@ import { RepoTimeService } from './services/repo-time.service';
     WakaTimeService,
     RepoTimeService,
   ],
-  controllers: [RepositoryController],
+  controllers: [RepositoryController, RepoTimeController],
   exports: [RepositoryService],
 })
 export class RepositoryModule {}

@@ -2,7 +2,7 @@ import { IsNotEmpty } from 'class-validator';
 
 export class RepoTimeDto {
   @IsNotEmpty()
-  date: Date;
+  date: Date | string;
 
   @IsNotEmpty()
   repositoryName: string;

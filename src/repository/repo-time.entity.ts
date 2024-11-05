@@ -5,7 +5,7 @@ import { RepositoryEntity } from './repository.entity';
 @Entity({ name: 'repositories_time' })
 export class RepoTime extends BaseEntity {
   @Column({ type: 'date' })
-  date: Date;
+  date: Date | string;
 
   @ManyToOne(() => RepositoryEntity)
   @JoinColumn()

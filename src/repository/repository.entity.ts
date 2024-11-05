@@ -1,6 +1,7 @@
 import { Project } from 'src/project/project.entity';
 import { BaseEntity } from 'src/shared/entities/base.entity';
-import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
+import { RepoTime } from './repo-time.entity';
 
 @Entity({ name: 'repositories' })
 export class RepositoryEntity extends BaseEntity {
@@ -13,4 +14,7 @@ export class RepositoryEntity extends BaseEntity {
   @ManyToMany(() => Project)
   @JoinTable()
   projects: Project[];
+
+  @OneToMany(() => RepoTime, (rt) => rt.repository)
+  times: RepoTime[];
 }
