@@ -18,14 +18,12 @@ export class TrackingSchedule {
       return;
     }
     console.log(`==== [TRACKING_SCHEDULE] ====`);
-    console.log(new Date().toString());
+    console.log(new Date().toLocaleString());
     const repos = await this.repositoryService.findAllInProjectTracking();
     const repoNames = repos.map((r) => r.name);
-    console.log(repoNames);
     const { date, repositories } = await this.wakaTimeService.fetchSummary({
       repositories: repoNames,
     });
-    console.log(date, repositories);
     for await (const {
       hours,
       name,

@@ -5,6 +5,7 @@ import { IBaseService } from 'src/shared/services/base.service';
 import { RepoTimeDto } from './dto/repo-time.dto';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { RepositoryService } from './repository.service';
+import { TimeHelper } from 'src/shared/helpers/time.helper';
 
 export class RepoTimeService implements IBaseService<RepoTime, RepoTimeDto> {
   constructor(
@@ -49,7 +50,6 @@ export class RepoTimeService implements IBaseService<RepoTime, RepoTimeDto> {
     seconds,
     totalSeconds,
   }: RepoTimeDto): Promise<RepoTime> {
-    console.log(date);
     const repository = await this.repositoryService.findByName(repositoryName);
     if (!repository) {
       throw new NotFoundException(
@@ -61,6 +61,9 @@ export class RepoTimeService implements IBaseService<RepoTime, RepoTimeDto> {
       throw new BadRequestException(
         `Já existe um lançamento de tempo para a data informada: ${date}. Repo: ${repositoryName}`,
       );
+    }
+    if (!totalSeconds) {
+      totalSeconds = TimeHelper.setTotalSeconds(hours, minutes, seconds);
     }
 
     return this.repoTimRepository.save({

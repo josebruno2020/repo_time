@@ -20,8 +20,8 @@ export class ProjectSummaryService {
   }: ProjectSummaryDto): Promise<ProjectSummaryResponseDto[]> {
     const query = this.projectRepository
       .createQueryBuilder('p')
-      .leftJoin('p.repositories', 'repository')
-      .leftJoin('repository.times', 'time')
+      .innerJoin('p.repositories', 'repository')
+      .innerJoin('repository.times', 'time')
       .where('p.isActive = true')
       .andWhere('p.isTracking = true')
       .andWhere('repository.isActive = true')
@@ -35,7 +35,7 @@ export class ProjectSummaryService {
       query.andWhere('time.date between :start and :end', { start, end });
     }
 
-    query.groupBy('p.id');
+    query.groupBy('p.id').orderBy('total', 'DESC');
 
     const results = await query.getRawMany();
 
@@ -73,7 +73,7 @@ export class ProjectSummaryService {
       query.andWhere('time.date between :start and :end', { start, end });
     }
 
-    query.groupBy('repository.id');
+    query.groupBy('repository.id').orderBy('total', 'DESC');
 
     const results = await query.getRawMany();
 
