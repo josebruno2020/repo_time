@@ -1,6 +1,7 @@
 export class ProjectSummaryDto {
   start?: string;
   end?: string;
+  name?: string;
 }
 
 export class RepositorySummaryResponseDto {

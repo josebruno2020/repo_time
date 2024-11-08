@@ -17,6 +17,7 @@ export class ProjectSummaryService {
   async getProjectsSummary({
     start,
     end,
+    name,
   }: ProjectSummaryDto): Promise<ProjectSummaryResponseDto[]> {
     const query = this.projectRepository
       .createQueryBuilder('p')
@@ -33,6 +34,10 @@ export class ProjectSummaryService {
 
     if (start && end) {
       query.andWhere('time.date between :start and :end', { start, end });
+    }
+
+    if (name) {
+      query.andWhere('p.name ilike :name', { name: `%${name}%` });
     }
 
     query.groupBy('p.id').orderBy('total', 'DESC');
