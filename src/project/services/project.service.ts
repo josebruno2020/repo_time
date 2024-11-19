@@ -1,8 +1,8 @@
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { Project } from '../project.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IBaseService } from 'src/shared/services/base.service';
-import { ProjectDto } from './dto/project.dto';
+import { ProjectDto, ProjectListDto } from './dto/project.dto';
 import { NotFoundException } from '@nestjs/common';
 import { RepositoryService } from 'src/repository/services/repository.service';
 import { RepositoryEntity } from 'src/repository/repository.entity';
@@ -14,8 +14,11 @@ export class ProjectService implements IBaseService<Project, ProjectDto> {
     private readonly repositoryService: RepositoryService,
   ) {}
 
-  findAll(): Promise<Project[]> {
+  findAll({ name }: ProjectListDto): Promise<Project[]> {
     return this.projectRepository.find({
+      where: {
+        name: ILike(`%${name}%`),
+      },
       order: {
         createdAt: 'desc',
       },

@@ -1,7 +1,7 @@
 import { IBaseService } from 'src/shared/services/base.service';
 import { RepositoryEntity } from '../repository.entity';
-import { RepositoryDto } from './dto/repository.dto';
-import { Repository } from 'typeorm';
+import { RepositoryDto, RepositoryListDto } from './dto/repository.dto';
+import { ILike, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 
@@ -13,8 +13,11 @@ export class RepositoryService
     private readonly repository: Repository<RepositoryEntity>,
   ) {}
 
-  findAll(): Promise<RepositoryEntity[]> {
+  findAll({ name }: RepositoryListDto): Promise<RepositoryEntity[]> {
     return this.repository.find({
+      where: {
+        name: ILike(`%${name}%`),
+      },
       order: {
         createdAt: 'desc',
       },

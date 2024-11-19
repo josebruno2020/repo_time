@@ -9,3 +9,7 @@ export class ProjectDto {
   @IsArray()
   repositories: string[];
 }
+
+export class ProjectListDto {
+  name?: string = '';
+}

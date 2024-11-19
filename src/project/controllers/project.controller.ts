@@ -1,14 +1,14 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { ProjectService } from '../services/project.service';
-import { ProjectDto } from '../services/dto/project.dto';
+import { ProjectDto, ProjectListDto } from '../services/dto/project.dto';
 
 @Controller('projects')
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
   @Get()
-  getAll() {
-    return this.projectService.findAll();
+  getAll(@Query() query: ProjectListDto) {
+    return this.projectService.findAll(query);
   }
 
   @Post()

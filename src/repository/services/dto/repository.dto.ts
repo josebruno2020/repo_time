@@ -6,3 +6,7 @@ export class RepositoryDto {
 
   description: string;
 }
+
+export class RepositoryListDto {
+  name?: string = '';
+}
