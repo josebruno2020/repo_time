@@ -22,4 +22,6 @@ export class RepoTime extends BaseEntity {
 
   @Column({ type: 'decimal', nullable: true })
   totalSeconds: number;
+
+  formatted?: string;
 }

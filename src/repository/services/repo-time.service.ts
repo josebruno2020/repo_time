@@ -14,11 +14,15 @@ export class RepoTimeService implements IBaseService<RepoTime, RepoTimeDto> {
     private readonly repositoryService: RepositoryService,
   ) {}
 
-  findByRepository(repositoryId: string): Promise<RepoTime[]> {
-    return this.repoTimRepository.find({
+  async findByRepository(repositoryId: string): Promise<RepoTime[]> {
+    const repoTimes = await this.repoTimRepository.find({
       where: { repository: { id: repositoryId } },
       order: { createdAt: 'desc' },
     });
+    return repoTimes.map((time) => ({
+      ...time,
+      formatted: TimeHelper.formatTotalSeconds(time.totalSeconds),
+    }));
   }
 
   findById(id: string): Promise<RepoTime> {
